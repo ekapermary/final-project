@@ -1,0 +1,47 @@
+plugins {
+    id("java")
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    //webdriverManager
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    implementation("io.github.bonigarcia:webdrivermanager:6.1.0")
+
+    //selenium
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    implementation("org.seleniumhq.selenium:selenium-java:4.33.0")
+
+    //jUnit4
+    // https://mvnrepository.com/artifact/junit/junit
+    testImplementation("junit:junit:4.13.2")
+
+    //cucumber
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
+    implementation("io.cucumber:cucumber-java:7.22.2")
+
+    //java-fakerw
+    // https://mvnrepository.com/artifact/com.github.javafaker/javafaker
+    implementation("com.github.javafaker:javafaker:1.0.2")
+
+    testImplementation 'io.cucumber:cucumber-junit:7.14.0'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.rest-assured:rest-assured:5.4.0'
+    testImplementation 'org.junit.platform:junit-platform-suite-api'
+    testImplementation 'org.junit.platform:junit-platform-suite:1.10.2'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.0.0'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:<versi>'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:<versi>'
+
+}
+
+test {
+    useJUnit()
+}
