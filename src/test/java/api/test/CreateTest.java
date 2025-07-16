@@ -13,7 +13,7 @@ public class CreateTest extends BaseTest {
     @Test
     public void testCreate(){
         //set base url untuk restAssured
-        RestAssured.baseURI = "https://dummyapi.io/data/api"; // Ganti dengan base URI yang sesuai
+        RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
 
         //membuat json payload untuk request body
         JsonObject requestBody = new JsonObject();
@@ -26,7 +26,7 @@ public class CreateTest extends BaseTest {
 
         //kirim request POST untuk membuat user baru
         Response response = given()
-                .header("app-id", ")
+                .header("app-id", "624c9429450430b574dcf17c")
                 .contentType("application/json")
                 .body(requestBody.toString())
                 .when()
@@ -36,7 +36,8 @@ public class CreateTest extends BaseTest {
                 .body("firstName", equalTo("eka"));
                 .body("lastName", equalTo("permatasari"))
                 .extract()
-                .response();
+                .response()
+                .log().body();
 
         //debug - cetak response
         System.out.println("[DEBUG] Response status code: " + response.getStatusCode());

@@ -14,7 +14,7 @@ public class UpdateTest extends BaseTest {
         String userId = " "; // Ganti dengan ID pengguna yang sesuai
 
         //set base url untuk restAssured
-        RestAssured.baseURI = "https://dummyapi.io/data/api"; // Ganti dengan base URI yang sesuai
+        RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
 
         // Membuat JSON payload untuk request body
         JSONPObject updateData = new JSONPObject();
@@ -23,7 +23,7 @@ public class UpdateTest extends BaseTest {
 
         //kirim request PUT untuk memperbarui user
         Response response = given()
-                .header("app-id", "YOUR_APP_ID_HERE") // Ganti dengan APP ID asli
+                .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
                 .contentType("application/json")
                 .body(updateData.toString())
                 .when()

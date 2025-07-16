@@ -4,15 +4,20 @@ import io.cucumber.java.en.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.UUID;
 import static io.restassured.RestAssured.given;
+import static java.lang.Math.log;
 import static org.hamcrest.CoreMatchers.*;
 
 public class APIStepDev {
 
     private static final String BASE_URL = "https://dummyapi.io/data/v1";
     private static final String APP_ID = "YOUR_APP_ID_HERE"; // ganti dengan APP ID asli
+    private static final Logger log = LoggerFactory.getLogger(APIStepDev.class);
     private static String userID;
     private Response response;
 
@@ -27,7 +32,9 @@ public class APIStepDev {
                 .contentType("application/json")
                 .body(requestBody)
                 .when()
+                .log().body()
                 .post(BASE_URL + "/user/create");
+
 
         System.out.println("[DEBUG] Response: " + response.asString());
 

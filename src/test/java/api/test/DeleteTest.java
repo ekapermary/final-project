@@ -11,14 +11,14 @@ public class DeleteTest extends BaseTest{
     @Test
     public void deleteUser() {
         //ganti dengan ID user yg valid
-        String userId = " ";
+        String userId = "";
 
         //set base url untuk restAssured
-        RestAssured.baseURI = "https://dummyapi.io/data/api"; // Ganti dengan base URI yang sesuai
+        RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
 
         //langkah 1 : periksa apakah user ID masih ada sebelum menghapusnya
         Response checkUser = given()
-                .header("app-id", " ") //Ganti dengan APP ID asli
+                .header("app-id", "624c9429450430b574dcf17c") //Ganti dengan APP ID asli
                 .when()
                 .get("/user/" + userId);
                 .then()
@@ -34,7 +34,7 @@ public class DeleteTest extends BaseTest{
 
         //langkah 2 : mengirim request DELETE untuk menghapus user jika masih ada
         Response deleteResponse = given()
-                .header("app-id", " ") //Ganti dengan APP ID asli
+                .header("app-id", "624c9429450430b574dcf17c") //Ganti dengan APP ID asli
                 .when()
                 .delete("/user/" + userId)
                 .then()

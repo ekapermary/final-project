@@ -11,10 +11,10 @@ import static org.junit.Assert.assertNotNull;
 public class GetUserTest {
     @Test
     public void testGetUser() {
-        RestAssured.baseURI = "https://dummyapi.io/data/api"; // Ganti dengan base URI yang sesuai
+        RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
 
         Response response = given()
-                .header("app-id", " ") // Ganti dengan APP ID asli
+                .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
                 .when()
                 .get("/user/{userId}"); // Ganti "someUserId" dengan ID pengguna yang valid
                 .then()
