@@ -4,8 +4,6 @@ import com.google.gson.JsonObject;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Test;
-import org.openqa.selenium.json.Json;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -33,8 +31,8 @@ public class CreateTest extends BaseTest {
                 .post("/user/create");
                 .then()
                 .statusCode(200); // pastikan status code adalah 201 Created
-                .body("firstName", equalTo("eka"));
-                .body("lastName", equalTo("permatasari"))
+                .body ("firstName", equalTo("eka"))
+                .body ("lastName", equalTo("permatasari"))
                 .extract()
                 .response()
                 .log().body();
