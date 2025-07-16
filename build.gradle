@@ -39,6 +39,7 @@ dependencies {
     testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.0.0'
     testImplementation 'io.cucumber:cucumber-junit-platform-engine:<versi>'
     testImplementation 'io.cucumber:cucumber-junit-platform-engine:<versi>'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
 }
 

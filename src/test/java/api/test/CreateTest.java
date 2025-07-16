@@ -28,14 +28,17 @@ public class CreateTest extends BaseTest {
                 .contentType("application/json")
                 .body(requestBody.toString())
                 .when()
-                .post("/user/create");
+                .post("/user/create")
                 .then()
-                .statusCode(200); // pastikan status code adalah 201 Created
+                .log().all()
+                .statusCode(200) // pastikan status code adalah 201 Created
                 .body ("firstName", equalTo("eka"))
                 .body ("lastName", equalTo("permatasari"))
                 .extract()
-                .response()
-                .log().body();
+                .response();
+
+        //System.out.println(response.asPrettyString());
+
 
         //debug - cetak response
         System.out.println("[DEBUG] Response status code: " + response.getStatusCode());

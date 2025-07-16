@@ -16,7 +16,7 @@ public class GetUserTest {
         Response response = given()
                 .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
                 .when()
-                .get("/user/{userId}"); // Ganti "someUserId" dengan ID pengguna yang valid
+                .get("/user/{userId}") // Ganti "someUserId" dengan ID pengguna yang valid
                 .then()
                 .statusCode(200) // Pastikan status code adalah 200 OK
                 .extract().response();

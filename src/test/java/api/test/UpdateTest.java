@@ -1,6 +1,5 @@
 package api.test;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Test;
@@ -20,6 +19,7 @@ public class UpdateTest extends BaseTest {
         JSONPObject updateData = new JSONPObject();
         updateData.put("firstName", "eka");
         updateData.put("lastName", "permatasari");
+        //updateData.addProperty("email", "eka.permatasari" + System.currentTimeMillis() + "@example.com"); // membuat email unik
 
         //kirim request PUT untuk memperbarui user
         Response response = given()

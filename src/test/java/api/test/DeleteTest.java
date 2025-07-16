@@ -20,7 +20,7 @@ public class DeleteTest extends BaseTest{
         Response checkUser = given()
                 .header("app-id", "624c9429450430b574dcf17c") //Ganti dengan APP ID asli
                 .when()
-                .get("/user/" + userId);
+                .get("/user/" + userId)
                 .then()
                 .extract().response();
 
