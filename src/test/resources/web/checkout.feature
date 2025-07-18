@@ -1,8 +1,8 @@
 @checkout
-  feature: Checkout pada website demoblaze
+  Feature: Checkout pada website demoblaze
 
   @Positive
-  scenario: Berhasil checkout produk di demoblaze
+  Scenario: Berhasil checkout produk di demoblaze
     Given user membuka halaman Demoblaze
     When user menambahkan produk ke keranjang
     And user membuka halaman cart
@@ -20,7 +20,7 @@
         | Sony xperia z5    | Bimo  | Jepang    | Tokyo   | 987654321 | 05    | 2027 |
 
   @Negative
-  scenario: User gagal checkout produk di demoblaze dengan data tidak valid
+  Scenario: User gagal checkout produk di demoblaze dengan data tidak valid
     Given user membuka halaman Demoblaze
     When user memilih produk "Sony xperia z5"
     And user menambahkan produk ke keranjang

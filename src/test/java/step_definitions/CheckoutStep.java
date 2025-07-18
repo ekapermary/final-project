@@ -1,7 +1,6 @@
 package step_definitions;
 
 import io.cucumber.datatable.DataTable;
-import org.junit.jupiter.api.Assertions;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -9,6 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -107,6 +107,7 @@ public class CheckoutStep {
         }
     }
 
+    
     @After
     public void tearDown() {
         if (driver != null)

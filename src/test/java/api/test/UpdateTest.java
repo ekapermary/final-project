@@ -3,6 +3,7 @@ package api.test;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Test;
+import com.google.gson.JsonObject;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,16 +17,16 @@ public class UpdateTest extends BaseTest {
         RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
 
         // Membuat JSON payload untuk request body
-        JSONPObject updateData = new JSONPObject();
-        updateData.put("firstName", "eka");
-        updateData.put("lastName", "permatasari");
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("firstName", "eka");
+        requestBody.addProperty("lastName", "permatasari");
         //updateData.addProperty("email", "eka.permatasari" + System.currentTimeMillis() + "@example.com"); // membuat email unik
 
         //kirim request PUT untuk memperbarui user
         Response response = given()
                 .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
                 .contentType("application/json")
-                .body(updateData.toString())
+                .body(requestBody.toString())
                 .when()
                 .put("/user/" + userId)
                 .then()
