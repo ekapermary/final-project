@@ -4,13 +4,22 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.LoginPage;
+
+
+import static org.openqa.selenium.devtools.v135.page.Page.captureScreenshot;
 
 public class LoginStep {
     private WebDriver driver;
     private CommonStep commonStep;
     private LoginPage loginPage;
+    private org.openqa.selenium.support.ui.WebDriverWait wait;
+
 
     public LoginStep() {
         this.driver = Hooks.getDriver();
@@ -42,7 +51,21 @@ public class LoginStep {
     @Then("user akan diarahkan ke halaman utama")
     public void userAkanDiarahkanKeHalamanUtama() {
         Assert.assertTrue("login gagal, halaman utama tidak ditampilkan",
-        loginPage.isLoginSuccessful() && driver.getCurrentUrl().contains("https://www.demoblaze.com/index.html"));
+                loginPage.isLoginSuccessful() && driver.getCurrentUrl().contains("https://www.demoblaze.com/index.html"));
+    }
+
+    @Then("sistem menampilkan pesan {string}")
+    public void verifyLoginErrorMessage(String expectedMessage) {
+        try {
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            String actualMessage = alert.getText();
+            Assertions.assertTrue(actualMessage.contains(expectedMessage),
+                    "Pesan error tidak sesuai. Diharapkan: " + expectedMessage + ", tetapi didapat: " + actualMessage);
+            alert.accept();
+        } catch (TimeoutException e) {
+            captureScreenshot("login_error.png");
+            Assertions.fail("Tidak ada alert yang muncul dalam waktu yang ditentukan");
+        }
     }
 
 }
