@@ -11,7 +11,7 @@ public class DeleteTest extends BaseTest{
     @Test
     public void deleteUser() {
         //ganti dengan ID user yg valid
-        String userId = "";
+        String userId = "6879fb344e447c9e781f3743";
 
         //set base url untuk restAssured
         RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai

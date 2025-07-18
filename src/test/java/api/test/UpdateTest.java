@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class UpdateTest extends BaseTest {
     @Test
     public void updateUser() {
-        String userId = " "; // Ganti dengan ID pengguna yang sesuai
+        String userId = "6879fb344e447c9e781f3743"; // Ganti dengan ID pengguna yang sesuai
 
         //set base url untuk restAssured
         RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
