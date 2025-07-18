@@ -21,9 +21,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 
-import static io.opentelemetry.api.internal.ApiUsageLogger.log;
-import static org.openqa.selenium.devtools.v135.page.Page.captureScreenshot;
-
 public class CheckoutStep {
 
     private WebDriver driver;
@@ -32,8 +29,6 @@ public class CheckoutStep {
     private CheckoutPage checkoutPage;
     private static final int DEFAULT_TIMEOUT = 30;
 
-    //step definitions
-
     @Given("user membuka halaman Demoblaze")
     public void userMembukaHalamanDemoblaze() {
         setupDriver();
@@ -41,44 +36,74 @@ public class CheckoutStep {
         waitForVisibility(By.xpath("//*[@id='navbarExample']/ul/li[1]/a"));
     }
 
-    @When("user menambahkan produk {string} ke keranjang")
-    public void addProductToCart(String productName) {
-        log ("Add product ke keranjang: " + productName);
+    @When("user menambahkan produk ke keranjang")
+    public void userMenambahkanProdukKeKeranjangDefault() {
+        String defaultProduct = "Samsung galaxy s6";
+        log("User menambahkan produk default: " + defaultProduct);
+        homePage.selectProduct(defaultProduct);
+        homePage.addToCart();
+        handleAlertIfPresent();
+    }
+
+    @When("user memilih produk {string}")
+    public void userMemilihProduk(String productName) {
+        log("User memilih produk: " + productName);
         homePage.selectProduct(productName);
+    }
+
+    @And("user menambahkan produk ke keranjang")
+    public void userMenambahkanProdukKeKeranjangSetelahPilih() {
         homePage.addToCart();
         handleAlertIfPresent();
     }
 
     @And("user membuka halaman cart")
-    public void goToCartPage(){
+    public void goToCartPage() {
         homePage.goToCart();
     }
 
-    @When("user membuka form checkout")
-    public void openCheckoutForm(){
+    @And("user membuka halaman checkout")
+    public void openCheckoutForm() {
         checkoutPage.clickPlaceOrder();
         waitForVisibility(By.id("orderModalLabel"));
     }
 
-    @When("user melengkapi form checkout dengan data berikut:")
-    public void checkoutWithData (DataTable data){
+    @And("user melengkapi form checkout dengan data berikut:")
+    public void checkoutWithData(DataTable data) {
         fillCheckoutForm(data);
     }
 
-    @When ("user klik tombol Purchase")
+    @And("user mengklik tombol Purchase")
+    public void clickPurchase() {
+        checkoutPage.clickPurchase();
+    }
+
+    @And("user mengklik tombol Purchase dengan data validitas")
     public void clickPurchaseBasedOnValidation() {
-        log("Menentukan apakah perlu Klik tombol Purchase berdasarkan validasi");
         if (isFormDataValid()) {
-            log("Form data valid, melakukan klik Purchase");
             checkoutPage.clickPurchase();
         } else {
-            log("Form data tidak valid, tidak melakukan klik Purchase");
+            log("Form data tidak valid, tombol Purchase tidak diklik");
         }
     }
 
-    //Checkout steps mengubah verifyMessageBasedOnSuccess dan antosinya
+    @Then("sistem menampilkan pesan sukses dengan teks {string}")
+    public void verifySuccessfullOrder(String expectedMessage) {
+        verifySuccessMessage(expectedMessage);
+    }
 
-    @Then("Akan menampilkan {string} sesuai hasil {word}")
+    @Then("user menutup notifikasi pop up")
+    public void closeSuccessPopup() {
+        try {
+            waitForVisibility(By.xpath("//div[contains(@class, 'sweet-alert')]//h2[contains(text(), 'Thank you for your purchase!')]"), DEFAULT_TIMEOUT + 5);
+            waitForClickable(By.xpath("//button[contains(@class, 'confirm') and text()='OK']")).click();
+        } catch (Exception e) {
+            captureScreenshot("popup_error.png");
+            throw e;
+        }
+    }
+
+    @Then("sistem menampilkan pesan {string} sesuai hasil {word}")
     public void verifyMessageBasedOnSuccess(String expectedMessage, String inSuccessStr) {
         boolean isSuccess = Boolean.parseBoolean(inSuccessStr);
         if (isSuccess) {
@@ -88,36 +113,14 @@ public class CheckoutStep {
         }
     }
 
-
-    @Then("Order berhasil di proses dan menampilkan pesan {string}")
-    public void verifySuccessfullOrder(String expectedMessage){
-        verifySuccessMessage(expectedMessage);
-    }
-
-    @Then("user menutup pop up konfirmasi pmbelian")
-    public void cloeseSuccessPopup() {
-        try {
-            waitForVisibility(By.xpath("//div[contains(@class, 'sweet-alert')]//h2[contains(text(), 'Thank you for your purchase!')]"), DEFAULT_TIMEOUT + 5);
-            waitForClickable(By.xpath("//button[contains(@class, 'confirm') and text()='OK']")).click();
-            log("Tombol Ok pada pop up konfirmasi pembelian berhasil diklik");
-        } catch (Exception e) {
-            log("Gagal menutup pop up konfirmasi pembelian: " + e.getMessage());
-            captureScreenshot("popup_error.png");
-            throw e;
-        }
-    }
-
-    
     @After
     public void tearDown() {
-        if (driver != null)
-            driver.quit();
-            CheckoutData.clear();
-
+        if (driver != null) driver.quit();
+        CheckoutData.clear();
     }
 
     // Helper methods
-    private void setupDriver(){
+    private void setupDriver() {
         WebDriverManager.chromedriver().setup();
         driver = Hooks.getDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
@@ -125,7 +128,7 @@ public class CheckoutStep {
         checkoutPage = new CheckoutPage(driver);
     }
 
-    private void fillCheckoutForm(DataTable data){
+    private void fillCheckoutForm(DataTable data) {
         Map<String, String> formData = data.asMap(String.class, String.class);
         CheckoutData.setFormData(
                 formData.get("name"),
@@ -134,10 +137,7 @@ public class CheckoutStep {
                 formData.get("card"),
                 formData.get("month"),
                 formData.get("year")
-                );
-
-        log("Mengisi form checkout dengan data: " + formData);
-        logCheckoutData();
+        );
 
         checkoutPage.enterCheckoutDetails(
                 CheckoutData.getName(),
@@ -149,28 +149,27 @@ public class CheckoutStep {
         );
     }
 
-    private boolean isFormDataValid(){
+    private boolean isFormDataValid() {
         return isFilled(CheckoutData.getName()) &&
-               isFilled(CheckoutData.getCard());
+                isFilled(CheckoutData.getCard());
     }
 
-    private boolean isFilled(String value){
+    private boolean isFilled(String value) {
         return value != null && !value.trim().isEmpty();
     }
 
-    private void verifySuccessMessage(String expectedMessage){
+    private void verifySuccessMessage(String expectedMessage) {
         try {
             WebElement successElement = waitForVisibility(By.xpath("//div[contains(@class, 'sweet-alert')]//h2"), DEFAULT_TIMEOUT + 5);
             String actualMessage = successElement.getText();
-            log("Pesan Success muncul: " + actualMessage);
             Assertions.assertTrue(actualMessage.contains(expectedMessage), "Pesan tidak sesuai");
-        } catch (TimeoutException e){
-            log("Gagal menampilkan pesan Success");
+        } catch (TimeoutException e) {
             captureScreenshot("checkout_success_error.png");
-            throw e; }
+            throw e;
         }
+    }
 
-    private void verifyNoPopupOnInvalid(String expectedMessage)  {
+    private void verifyNoPopupOnInvalid(String expectedMessage) {
         try {
             waitForVisibility(By.xpath("//div[contains(@class, 'sweet-alert')]//h2"), 5);
             captureScreenshot("popup_error.png");
@@ -180,24 +179,22 @@ public class CheckoutStep {
         }
     }
 
-    private void handleAlertIfPresent(){
-        try{
+    private void handleAlertIfPresent() {
+        try {
             WebDriverWait alertWait = new WebDriverWait(driver, Duration.ofSeconds(5));
             Alert alert = alertWait.until(ExpectedConditions.alertIsPresent());
-            log("Alert muncul: " + alert.getText());
             alert.accept();
-            log("Close alert");
         } catch (TimeoutException e) {
-            log("Tidak ada alert yang muncul setelah klik add to cart"); }
+            log("Tidak ada alert yang muncul setelah klik add to cart");
         }
+    }
 
     private WebElement waitForVisibility(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     private WebElement waitForVisibility(By locator, int timeoutSeconds) {
-        return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
-                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds)).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     private WebElement waitForClickable(By locator) {
@@ -210,23 +207,12 @@ public class CheckoutStep {
             File dir = new File("screenshots/");
             if (!dir.exists()) dir.mkdirs();
             FileUtils.copyFile(screenshot, new File(dir, filename));
-            log("Screenshoot disimpan di : screeenshots/" + filename);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void logCheckoutData(){
-        log("    - Nama   : " + CheckoutData.getName());
-        log("    - Negara : " + CheckoutData.getCountry());
-        log("    - Kota   : " + CheckoutData.getCity());
-        log("    - Kartu  : " + CheckoutData.getCard());
-        log("    - Bulan  : " + CheckoutData.getMonth());
-        log("    - Tahun  : " + CheckoutData.getYear());
     }
 
     private void log(String message) {
         System.out.println(message);
     }
-
 }
