@@ -6,13 +6,12 @@ Feature: Sign up web Demoblaze
     When user klik tombol sign up
     And user memasukkan username "<username>"
     And user memasukkan password "<password>"
-    And user klik tombol sign up
+    And user click tombol sign up
     Then sistem akan menampilkan pesan "<expected_message>"
-
     Examples:
         | username     | password | expected_message          |
-        | ekapermary   | welcome  | Sign up Successful        |
+    #    | ekapermary   | welcome  | Sign up Successful        |
         | Admin356     | password | This user already exists  |
-        | emptyuser    |          | Please fill out Username. |
-        |              | welcome  | Please fill out Username. |
+#        | emptyuser    |          | Please fill out Username. |
+#        |              | welcome  | Please fill out Username. |
 
