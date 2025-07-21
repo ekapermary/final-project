@@ -44,7 +44,7 @@ public class SignupStep {
         signupPage.enterPassword(password);
     }
 
-    @And("user klik tombol sign up")
+    @And("user click tombol sign up")
     public void userClikTombolSignUp() {
         signupPage.clickSignUpButton();
     }

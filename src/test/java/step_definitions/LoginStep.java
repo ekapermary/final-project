@@ -5,14 +5,16 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.LoginPage;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-import static org.openqa.selenium.devtools.v135.page.Page.captureScreenshot;
+import static org.openqa.selenium.devtools.v137.page.Page.captureScreenshot;
 
 public class LoginStep {
     private WebDriver driver;
@@ -63,7 +65,12 @@ public class LoginStep {
                     "Pesan error tidak sesuai. Diharapkan: " + expectedMessage + ", tetapi didapat: " + actualMessage);
             alert.accept();
         } catch (TimeoutException e) {
-            captureScreenshot("login_error.png");
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            try {
+                Files.copy(screenshot.toPath(), Paths.get("screenshots", "login_error.png"));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
             Assertions.fail("Tidak ada alert yang muncul dalam waktu yang ditentukan");
         }
     }
