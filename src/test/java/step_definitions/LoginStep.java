@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.LoginPage;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import static org.openqa.selenium.devtools.v137.page.Page.captureScreenshot;
 
 public class LoginStep {
