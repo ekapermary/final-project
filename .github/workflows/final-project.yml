@@ -1,48 +1,75 @@
 name: Final Project Eka
 
-#Triger / Kapan Action-nya jalan
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  workflow_dispatch:
 
 jobs:
-  automation-API:
-    runs-on: ubuntu-latest  # windows-latest, macos-latest, ubuntu-18.04,
+  build:
 
+    runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3  # Checkout the repository
+    #download repository
+    - uses: actions/checkout@v4
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: '11'  # Ganti dengan versi Java lain seperti '8', '17'
-          distribution: 'temurin'  # Alternatif: 'adoptopenjdk', 'zulu'
+    #set up java
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - name: Setup Chrome with extra capabilities
-        uses: browser-actions/setup-chrome@v1.4.0
-        with:
-          chrome-version: latest # Ganti dengan 'stable' untuk versi stabil
-          #chrome-options: '--headless' #(Jika ingin menjalankan Chrome dalam mode headless)
+    #install/set up browser
+    - name: Setup Browser
+      uses: abhi1693/setup-browser@v0.3.5
 
-      - name: Build with Gradle
-        run: |
-          chmod +x gradlew  # Make gradlew executable
-          ./gradlew build   # Run the build task before tests
-      - name: Run Tests
-        run: ./gradlew clean test  # Run tests after the build step
+    #set up gradle
+    - name: Setup gradlew
+      run: chmod +x gradlew
 
-      - name: Archive test results
-        uses: actions/upload-artifact@v4.3.0
-        if: always() #always() # success() , failure(), canceled()
-        with:
-          name: API reports
-          path: build/reports/tests/test # Path to test reports
+    #execute gradle comand for running cucumber test
+    - name: Execute Test
+      run: ./gradlew test
+             
+    
+    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
+    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+
+    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
+    #
+    # - name: Setup Gradle
+    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    #   with:
+    #     gradle-version: '8.9'
+    #
+    # - name: Build with Gradle 8.9
+    #   run: gradle build
+
+  dependency-submission:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
+    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
