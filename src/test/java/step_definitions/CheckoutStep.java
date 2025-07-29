@@ -29,6 +29,7 @@ public class CheckoutStep {
     private CheckoutPage checkoutPage;
     private static final int DEFAULT_TIMEOUT = 30;
 
+
     //@Given("user membuka halaman Demoblaze")
     public void userMembukaHalamanDemoblaze() {
         setupDriver();
@@ -45,11 +46,12 @@ public class CheckoutStep {
         handleAlertIfPresent();
     }
 
-    @When("user memilih produk {string}")
+    @And("user memilih produk {string}")
     public void userMemilihProduk(String productName) {
         log("User memilih produk: " + productName);
         homePage.selectProduct(productName);
     }
+
 
 //    @And("user menambahkan produk ke keranjang")
 //    public void userMenambahkanProdukKeKeranjangSetelahPilih() {
