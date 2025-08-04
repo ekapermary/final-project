@@ -29,6 +29,14 @@ public class CheckoutStep {
     private CheckoutPage checkoutPage;
     private static final int DEFAULT_TIMEOUT = 30;
 
+    private void setupDriver() {
+        WebDriverManager.chromedriver().setup();
+        driver = Hooks.getDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+        homePage = new HomePage(driver);
+        checkoutPage = new CheckoutPage(driver);
+    }
+
 
     //@Given("user membuka halaman Demoblaze")
     public void userMembukaHalamanDemoblaze() {
@@ -122,13 +130,13 @@ public class CheckoutStep {
     }
 
     // Helper methods
-    private void setupDriver() {
-        WebDriverManager.chromedriver().setup();
-        driver = Hooks.getDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
-        homePage = new HomePage();
-        checkoutPage = new CheckoutPage(driver);
-    }
+//    private void setupDriver() {
+//        WebDriverManager.chromedriver().setup();
+//        driver = Hooks.getDriver();
+//        wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+//        homePage = new HomePage(driver);
+//        checkoutPage = new CheckoutPage(driver);
+//    }
 
     private void fillCheckoutForm(DataTable data) {
         Map<String, String> formData = data.asMap(String.class, String.class);
