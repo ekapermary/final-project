@@ -94,14 +94,13 @@ public class APIStepDev {
     }
 
     @When("saya mengirim request GET untuk {string}")
-    public void sayaMengirimRequestGETUntuk(String userID) {
-        String finalEndpoint = BASE_URL + "/user/" + userID;
+    public void sayaMengirimRequestGETUntuk(String endpoint) {
+        String finalEndpoint = BASE_URL + endpoint.replace("{id}", userId);
         response = given()
                 .header("app-id", APP_ID)
                 .contentType(ContentType.JSON)
                 .get(finalEndpoint);
 
-        userId = userID;
         logger.info("GET from {}", finalEndpoint);
         logger.debug("Response: {}", response.asString());
     }
@@ -141,8 +140,8 @@ public class APIStepDev {
     }
 
     @When("saya mengirim request PUT untuk {string}")
-    public void saya_mengirim_request_put_untuk(String userID) {
-        String finalEndpoint = BASE_URL + "/user/" + userID;
+    public void saya_mengirim_request_put_untuk(String endpoint) {
+        String finalEndpoint = BASE_URL + endpoint.replace("{id}", userId);
         String newEmail = "updated_" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
 
         Map<String, Object> updateBody = new HashMap<>();
@@ -154,8 +153,6 @@ public class APIStepDev {
                 .contentType(ContentType.JSON)
                 .body(updateBody)
                 .put(finalEndpoint);
-
-        userId = userID;
 
         logger.info("PUT to {}", finalEndpoint);
         logger.debug("Update Response: {}", response.asString());
@@ -170,9 +167,7 @@ public class APIStepDev {
 
     @When("saya mengirim request DELETE untuk {string}")
     public void saya_mengirim_request_delete_untuk(String endpoint) {
-        //String finalEndpoint = BASE_URL + endpoint.replace("{id}", userId);
-        String finalEndpoint = BASE_URL + "/user/" + userId;
-
+        String finalEndpoint = BASE_URL + endpoint.replace("{id}", userId);
 
         response = given()
                 .header("app-id", APP_ID)
