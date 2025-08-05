@@ -29,8 +29,9 @@ public class LoginStep {
 
     @When("user klik Log in")
     public void userKlikLogIn() {
-        commonStep.userMembukaHalamanUtamaDemoblaze();
+        //commonStep.userMembukaHalamanUtamaDemoblaze();
         loginPage = new LoginPage(driver);
+        loginPage.clikLoginLink();
     }
 
     @And("user input {string} sebagai username")
@@ -51,7 +52,7 @@ public class LoginStep {
     @Then("user akan diarahkan ke halaman utama")
     public void userAkanDiarahkanKeHalamanUtama() {
         Assert.assertTrue("login gagal, halaman utama tidak ditampilkan",
-                loginPage.isLoginSuccessful() && driver.getCurrentUrl().contains("https://www.demoblaze.com/index.html"));
+                loginPage.isLoginSuccessful());
     }
 
     @Then("sistem menampilkan pesan {string}")

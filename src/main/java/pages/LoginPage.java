@@ -11,10 +11,17 @@ public class LoginPage {
     private WebDriverWait wait;
 
     //Locators untuk elemen-elemen di halaman login
+
+    private final By loginLink = By.id("login2");
     private final By usernameField = By.id("loginusername");
     private final By passwordField = By.id("loginpassword");
     private final By loginButton = By.xpath("//button[text()='Log in']");
-    private final By logoutButton = By.xpath("//button[text()='Log out']");
+    private final By logoutButton = By.id("logout2");
+
+    public void clikLoginLink(){
+        WebElement login = wait.until(ExpectedConditions.elementToBeClickable(loginLink));
+        login.click();
+    }
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
