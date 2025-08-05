@@ -70,7 +70,7 @@ public class CheckoutPage {
 
     private void fillField(String fieldName, String value) {
         By locator = fieldLocators.get(fieldName.toLowerCase());
-        if (locator != null) throw new IllegalArgumentException("Field not found: " + fieldName);
+        if (locator == null) throw new IllegalArgumentException("Field not found: " + fieldName);
 
         WebElement field = waitUntilClickable(locator);
             if (!field.isEnabled()){
