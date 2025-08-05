@@ -29,6 +29,13 @@ public class CheckoutStep {
     private CheckoutPage checkoutPage;
     private static final int DEFAULT_TIMEOUT = 30;
 
+    public CheckoutStep(){
+        this.driver = Hooks.getDriver(); // ← Ambil driver dari Hooks
+        this.homePage = new HomePage(driver);
+        this.checkoutPage = new CheckoutPage(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+    }
+
     @Given("user membuka Demoblaze")
     public void userMembukaDemoblaze() {
         this.driver = Hooks.getDriver(); // ← Ambil driver dari Hooks
@@ -127,7 +134,16 @@ public class CheckoutStep {
 //    }
 
     private void fillCheckoutForm(DataTable data) {
-        Map<String, String> formData = data.asMap(String.class, String.class);
+        Map<String, String> formData = data.asMaps().get(0); // baris pertama
+        CheckoutData.setFormData(
+                formData.get("name"),
+                formData.get("country"),
+                formData.get("city"),
+                formData.get("card"),
+                formData.get("month"),
+                formData.get("year")
+        );
+
         CheckoutData.setFormData(
                 formData.get("name"),
                 formData.get("country"),
