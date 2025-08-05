@@ -21,7 +21,7 @@ Feature: Checkout pada website demoblaze
 
   @Negative
   Scenario Outline: User gagal checkout produk di demoblaze dengan data tidak valid
-    Given user membuka halaman Demoblaze
+    Given user membuka Demoblaze
     When user memilih produk "Sony xperia z5"
     And user membuka halaman cart
     And user membuka halaman checkout
