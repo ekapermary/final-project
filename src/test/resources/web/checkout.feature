@@ -5,7 +5,6 @@ Feature: Checkout pada website demoblaze
   Scenario Outline: Berhasil checkout produk di demoblaze
     Given user membuka halaman Demoblaze
     When user memilih produk "<produk>"
-    And user menambahkan produk ke keranjang
     And user membuka halaman cart
     And user membuka halaman checkout
     And user melengkapi form checkout dengan data berikut:
@@ -24,7 +23,6 @@ Feature: Checkout pada website demoblaze
   Scenario Outline: User gagal checkout produk di demoblaze dengan data tidak valid
     Given user membuka halaman Demoblaze
     When user memilih produk "Sony xperia z5"
-    And user menambahkan produk ke keranjang
     And user membuka halaman cart
     And user membuka halaman checkout
     And user melengkapi form checkout dengan data berikut:

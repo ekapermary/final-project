@@ -29,27 +29,22 @@ public class CheckoutStep {
     private CheckoutPage checkoutPage;
     private static final int DEFAULT_TIMEOUT = 30;
 
-    private void setupDriver() {
-        WebDriverManager.chromedriver().setup();
-        driver = Hooks.getDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
-        homePage = new HomePage(driver);
-        checkoutPage = new CheckoutPage(driver);
-    }
-
-
-    //@Given("user membuka halaman Demoblaze")
+    @Given("user membuka halaman Demoblaze")
     public void userMembukaHalamanDemoblaze() {
-        setupDriver();
+        this.driver = Hooks.getDriver(); // ← Ambil driver dari Hooks
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+        this.homePage = new HomePage(driver);
+        this.checkoutPage = new CheckoutPage(driver);
+
         homePage.openHomePage();
         waitForVisibility(By.xpath("//*[@id='navbarExample']/ul/li[1]/a"));
     }
 
-    @When("user menambahkan produk ke keranjang")
-    public void userMenambahkanProdukKeKeranjangDefault() {
-        String defaultProduct = "Samsung galaxy s6";
-        log("User menambahkan produk default: " + defaultProduct);
-        homePage.selectProduct(defaultProduct);
+
+    @When("user menambahkan produk {string} ke keranjang")
+    public void addProductToCart(String productName) {
+        log("User menambahkan produk default: " + productName);
+        homePage.selectProduct(productName);
         homePage.addToCart();
         handleAlertIfPresent();
     }
@@ -59,13 +54,6 @@ public class CheckoutStep {
         log("User memilih produk: " + productName);
         homePage.selectProduct(productName);
     }
-
-
-//    @And("user menambahkan produk ke keranjang")
-//    public void userMenambahkanProdukKeKeranjangSetelahPilih() {
-//        homePage.addToCart();
-//        handleAlertIfPresent();
-//    }
 
     @And("user membuka halaman cart")
     public void goToCartPage() {
@@ -148,6 +136,9 @@ public class CheckoutStep {
                 formData.get("month"),
                 formData.get("year")
         );
+        
+        log("Mengisi form checkout : ");
+//        logCheckoutData();
 
         checkoutPage.enterCheckoutDetails(
                 CheckoutData.getName(),
