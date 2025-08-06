@@ -21,19 +21,20 @@ public class UpdateTest extends BaseTest {
         requestBody.addProperty("firstName", "eka");
         requestBody.addProperty("lastName", "permatasari");
         //updateData.addProperty("email", "eka.permatasari" + System.currentTimeMillis() + "@example.com"); // membuat email unik
+        System.out.println(requestBody.toString());
 
         //kirim request PUT untuk memperbarui user
         Response response = given()
-                .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
-                .contentType("application/json")
-                .body(requestBody.toString())
-                .when()
-                .put("/user/" + userId)
-                .then()
-                .statusCode(200) // pastikan status code adalah 200 OK
-                .body("firstName", equalTo("eka"))
-                .body("lastName", equalTo("permatasari"))
-                .extract().response();
+           .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
+           .contentType("application/json")
+           .body(requestBody.toString())
+           .when()
+           .put("/user/" + userId)
+           .then()
+           .statusCode(200) // pastikan status code adalah 200 OK
+           .body("firstName", equalTo("eka"))
+           .body("lastName", equalTo("permatasari"))
+           .extract().response();
 
         //cetak response json untuk debugging
         System.out.println("User udate response: " + response.prettyPrint());
