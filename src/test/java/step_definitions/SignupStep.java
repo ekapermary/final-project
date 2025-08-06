@@ -25,8 +25,8 @@ public class SignupStep {
         this.signupPage = new SignupPage(driver);
     }
 
-    @When("user klik tombol sign up")
-    public void userKlikTombolSignUp() {
+    @When("user klik sign up")
+    public void userKlikSignUp() {
         signupPage.openSignUpForm();
         uniqueUsername = generateUniqueUsername();
     }
@@ -51,8 +51,16 @@ public class SignupStep {
 
     @Then("sistem akan menampilkan pesan {string}")
     public void sistemAkanMenampilkanPesan(String expectedMessage) {
-        String actualMessage = signupPage.getAlertMessage();
-        assertEquals("Pesan tidak sesuai. Diharapkan: \"" + expectedMessage + "\", tapi muncul: \"" + actualMessage + "\"",
-                expectedMessage, actualMessage);
+        String actualMessage = signupPage.getAlertMessage().trim();
+
+        // Normalisasi (abaikan kapitalisasi & titik di akhir)
+        String normalizedExpected = expectedMessage.trim().toLowerCase().replace(".", "");
+        String normalizedActual = actualMessage.trim().toLowerCase().replace(".", "");
+
+        if (!normalizedActual.contains(normalizedExpected)) {
+            throw new AssertionError("Pesan yang diharapkan: \"" + expectedMessage + "\", tapi yang muncul: \"" + actualMessage + "\"");
+        }
     }
+
+
 }

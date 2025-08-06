@@ -13,7 +13,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class SignupPage {
     private WebDriver driver;
-    private By signUpMenu = By.id("signin-username");
+    private By signUpMenu = By.id("signin2");
     private By usernameField = By.id("sign-username");
     private By passwordField = By.id("sign-password");
     private By signUpButton = By.xpath("//button[text()='Sign up']");

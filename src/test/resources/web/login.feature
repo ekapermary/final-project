@@ -8,6 +8,7 @@
     And user input "ekapermary" sebagai username
     And user input "welcome" sebagai password
     And user klik tombol Log in
+
     Then user akan diarahkan ke halaman utama
 
   @negatif-Login
@@ -22,7 +23,7 @@
   Scenario: User gagal login ke website (username tidak terdaftar)
     Given user membuka halaman Demoblaze
     When user klik Log in
-    And user input "test123" sebagai username
+    And user input "ekapermari" sebagai username
     And user input "12345" sebagai password
     And user klik tombol Log in
     Then sistem menampilkan pesan "User does not exist."
