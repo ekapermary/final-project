@@ -12,7 +12,7 @@ public class UpdateTest extends BaseTest {
 
     @Test
     public void updateUser() {
-        String userId = "6879fb344e447c9e781f3743"; // Ganti dengan ID pengguna yang sesuai
+        String userId = "60d0fe4f5311236168a109db"; // Ganti dengan ID pengguna yang sesuai
         String appId = "63a804408eb0cb069b57e43a"; // Ganti dengan APP ID kamu
 
         // Set base URI
