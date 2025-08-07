@@ -33,7 +33,7 @@ public class SignupStep {
 
     @And("user memasukkan username {string}")
     public void userMemasukkanUsername(String username) {
-        if (username.equalsIgnoreCase("ekapermary")) {
+        if (username.equalsIgnoreCase("random")) {
             username = uniqueUsername;
         }
         signupPage.enterUsername(username);
