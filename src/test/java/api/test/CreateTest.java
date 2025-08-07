@@ -24,7 +24,7 @@ public class CreateTest extends BaseTest {
 
         //kirim request POST untuk membuat user baru
         Response response = given()
-                .header("app-id", "624c9429450430b574dcf17c")
+                .header("app-id", "63a804408eb0cb069b57e43a")
                 .contentType("application/json")
                 .body(requestBody.toString())
                 .when()
