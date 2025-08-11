@@ -13,7 +13,8 @@ jobs:
     
     steps:
       #download repository
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       #set up java
       - name: Set up JDK 17
@@ -35,3 +36,26 @@ jobs:
       #execute gradle comand for running cucumber test
       - name: Execute Test
         run: ./gradlew test
+
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Run Tests API
+        run: ./gradlew apiTest
+
+      - name: Run Tests Web UI
+        run: ./gradlew webTest
+
+      - name: Archive API test results
+        uses: actions/upload-artifact@v4.3.0
+        if: always() #always() # success() , failure(), canceled()
+        with:
+          name: API Test reports
+          path: build/reports/tests/apiTest  # Path to test reports
+
+      - name: Archive Web test results
+        uses: actions/upload-artifact@v4.3.0
+        if: always() #always() # success() , failure(), canceled()
+        with:
+          name: Web Test reports
+          path: target/cucumber-endtoend-reports.html  # Path to test reports
