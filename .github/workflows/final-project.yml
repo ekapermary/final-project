@@ -33,6 +33,18 @@ jobs:
       - name: Setup gradlew
         run: chmod +x gradlew
 
+
+      #execute gradle comand for running cucumber test
+      - name: Execute Test
+        run: ./gradlew test
+
+      - name: Archive test results
+        uses: actions/upload-artifact@v4.3.0
+        if: always() #always() # success() , failure(), canceled()
+        with:
+          name: cucumber reports
+          path: reports  # Path to test reports
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -64,3 +76,4 @@ jobs:
         with:
           name: Web Test reports
           path: target/cucumber-endtoend-reports.html  # Path to test reports
+

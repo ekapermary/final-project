@@ -11,7 +11,7 @@ Feature: Sign up web Demoblaze
 
     Examples:
         | username     | password | expectedMessage          |
-        | ekapermary   | welcome  | Sign up Successful        |
+        | random       | welcome  | Sign up Successful       |
         | Admin356     | password | This user already exist  |
 #       | emptyuser    |          | Please fill out Username. |
 #       |              | welcome  | Please fill out Username. |
