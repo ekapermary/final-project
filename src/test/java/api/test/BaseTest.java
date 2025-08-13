@@ -11,7 +11,7 @@ public class BaseTest {
     public static void setup() {
         RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
         request = RestAssured.given()
-                .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
+                .header("app-id", "63a804408eb0cb069b57e43a") // Ganti dengan APP ID asli
                 .contentType("application/json")
                 .accept("application/json");
     }

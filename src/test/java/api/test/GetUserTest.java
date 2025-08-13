@@ -14,9 +14,9 @@ public class GetUserTest {
         RestAssured.baseURI = "https://dummyapi.io/data/v1"; // Ganti dengan base URI yang sesuai
 
         Response response = given()
-                .header("app-id", "624c9429450430b574dcf17c") // Ganti dengan APP ID asli
+                .header("app-id", "63a804408eb0cb069b57e43a") // Ganti dengan APP ID asli
                 .when()
-                .get("/user/{userId}") // Ganti "someUserId" dengan ID pengguna yang valid
+                .get("/user/689423f430e0e85e8e56e6c5") // Ganti "someUserId" dengan ID pengguna yang valid
                 .then()
                 .statusCode(200) // Pastikan status code adalah 200 OK
                 .extract().response();

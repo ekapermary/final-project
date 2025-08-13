@@ -18,7 +18,7 @@ public class DeleteTest extends BaseTest{
 
         //langkah 1 : periksa apakah user ID masih ada sebelum menghapusnya
         Response checkUser = given()
-                .header("app-id", "624c9429450430b574dcf17c") //Ganti dengan APP ID asli
+                .header("app-id", "63a804408eb0cb069b57e43a") //Ganti dengan APP ID asli
                 .when()
                 .get("/user/" + userId)
                 .then()
@@ -34,7 +34,7 @@ public class DeleteTest extends BaseTest{
 
         //langkah 2 : mengirim request DELETE untuk menghapus user jika masih ada
         Response deleteResponse = given()
-                .header("app-id", "624c9429450430b574dcf17c") //Ganti dengan APP ID asli
+                .header("app-id", "63a804408eb0cb069b57e43a") //Ganti dengan APP ID asli
                 .when()
                 .delete("/user/" + userId)
                 .then()
