@@ -30,7 +30,7 @@ public class CheckoutStep {
     private static final int DEFAULT_TIMEOUT = 30;
 
     public CheckoutStep(){
-        this.driver = Hooks.getDriver(); // ← Ambil driver dari Hooks
+        this.driver = Hooks.getDriver(); // Ambil driver dari Hooks
         this.homePage = new HomePage(driver);
         this.checkoutPage = new CheckoutPage(driver);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
@@ -38,7 +38,7 @@ public class CheckoutStep {
 
     @Given("user membuka Demoblaze")
     public void userMembukaDemoblaze() {
-        this.driver = Hooks.getDriver(); // ← Ambil driver dari Hooks
+        this.driver = Hooks.getDriver(); //Ambil driver dari Hooks
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
         this.homePage = new HomePage(driver);
         this.checkoutPage = new CheckoutPage(driver);
