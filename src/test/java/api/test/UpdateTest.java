@@ -25,21 +25,6 @@ public class UpdateTest extends BaseTest {
 
         // Kirim PUT request
         Response response = given()
-
-           .header("app-id", "63a804408eb0cb069b57e43a") // Ganti dengan APP ID asli
-           .contentType("application/json")
-           .body(requestBody.toString())
-           .when()
-           .put("/user/" + userId)
-           .then().log().all()
-           .statusCode(200) // pastikan status code adalah 200 OK
-           .body("firstName", equalTo("eka"))
-           .body("lastName", equalTo("permatasari"))
-           .extract().response();
-
-        //cetak response json untuk debugging
-        System.out.println("User udate response: " + response.prettyPrint());
-=======
                 .header("app-id", "63a804408eb0cb069b57e43a")
                 .contentType("application/json")
                 .body(requestBody.toString())
